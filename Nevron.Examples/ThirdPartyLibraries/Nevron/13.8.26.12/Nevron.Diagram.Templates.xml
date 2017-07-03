@@ -1,0 +1,801 @@
+<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>Nevron.Diagram.Templates</name>
+  </assembly>
+  <members>
+    <member name="T:Nevron.Diagram.Templates.NFamilyTreeTemplate">
+      <summary>
+            The NFamilyTreeTemplate class represents a family tree template
+            </summary>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NGraphTemplate">
+      <summary>
+            The NGraphTemplate class is a template, which serves as base class for all templates which create graph
+            </summary>
+      <remarks>
+            It enhances its base with the following features:
+            <list type="bullet"><item><term>Vertex style and Edge style attributes</term><description>Exposed by the VerticesStyle and EdgesStyle properties
+            	</description></item><item><term>Control over the vertices shape and size</term><description>Exposed by the VerticesSize and VerticesShape properties
+            	</description></item><item><term>Generic spacing control</term><description>Exposed by the HorizontalSpacing and VerticalSpacing properties
+            	</description></item><item><term>Ability to create new vertices and edges which conform to the template settings</term><description>
+            	Achieved with the help of the CreateLineGraphEdge and CreateGraphVertex methods.
+            	</description></item></list></remarks>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NTemplate">
+      <summary>
+            The NTemplate abstract class serves as base class for all programmable templates
+            </summary>
+      <remarks>
+            The NTemplate class adds support for the following feautres:
+            <list type="bullet"><item><term>Attributes</term><description>
+            	NTemplate adds core support for attribites (hence implements the INAttributeContainer interface). 
+            	NTemplate itself does not expose any attributes though - it is up to derived classes to do that 
+            	</description></item><item><term>Measurement Unit</term><description>
+            	The measurements of the template are defined in the template measurement unit, hence 
+            	the NTemplate class implements the INMeasurementUnit and INMeasurements interfaces. 
+            	It also implements the INResolution interface.
+            	</description></item></list></remarks>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.Clone">
+      <summary>
+            Creates an identical copy of this object
+            </summary>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.UpdateReferences(Nevron.INReferenceProvider)">
+      <summary>
+      </summary>
+      <param name="provider">
+      </param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.GetAttributeName(Nevron.Dom.INAttribute)">
+      <summary>
+            Gets the name of the specified child attribute
+            </summary>
+      <param name="attribute">child attribute</param>
+      <returns>name of the attribute</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.GetAttributeByName(System.String)">
+      <summary>
+            Gets a child or descendant attribute by its name
+            </summary>
+      <param name="attributeName">child name or full attribute name</param>
+      <returns>a reference to the attribute</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.SetAttributeByName(System.String,Nevron.Dom.INAttribute)">
+      <summary>
+            Sets a child or descendant attribute by its name
+            </summary>
+      <param name="attributeName">attribute name</param>
+      <param name="attribute">attribute to set</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.OnAttributePropertyChanging(System.String,System.String,System.Object)">
+      <summary>
+            Called by child or descendants attributes when an attribute property is changing
+            </summary>
+      <param name="attributeFullName">full attribute name</param>
+      <param name="attributeProperty">attribute property</param>
+      <param name="newValue">new property value</param>
+      <returns>true if the change is acceptable, otherwise false</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.OnAttributePropertyChanged(System.String,System.String)">
+      <summary>
+            Called by child or descendants attributes when an attribute property has changed
+            </summary>
+      <param name="attributeFullName">full attribute name</param>
+      <param name="attributeProperty">attribute property</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.OnAttributeChanged(System.String)">
+      <summary>
+            Called by child or descendants attributes when an attribute has changed
+            </summary>
+      <param name="attributeFullName">full attribute name</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.ConvertMeasurementUnit(Nevron.GraphicsCore.NMeasurementUnitConverter,Nevron.GraphicsCore.NMeasurementUnit,Nevron.GraphicsCore.NMeasurementUnit)">
+      <summary>
+            Called when the measurement unit of the measurements stored in this template
+            have changed and all measurements must be converted to the new unit
+            </summary>
+      <param name="converter">measurement unit converter to use</param>
+      <param name="from">from measurement unit</param>
+      <param name="to">to measurement unit</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.Create(Nevron.Diagram.NDrawingDocument)">
+      <summary>
+            Creates the template in the specified document
+            </summary>
+      <remarks>
+            This method will call the CreateTemplate method. 
+            The call will be embraced in a transaction with the specified TransactionDescription
+            </remarks>
+      <param name="document">document in which to create the template</param>
+      <returns>true if the template was successfully created, otherwise false</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.GetDescription">
+      <summary>
+            Obtains a dynamic human readable description of the template
+            </summary>
+      <returns>template description</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.CreateUserControls">
+      <summary>
+            Creates the template user controls, which are used in the wizard
+            </summary>
+      <remarks>
+            This implementation returns a user control with a nested property grid
+            </remarks>
+      <returns>array of template user controls</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.CreateTemplate(Nevron.Diagram.NDrawingDocument)">
+      <summary>
+            Must override to create the template
+            </summary>
+      <param name="document">document in which to create the template</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplate.OnTemplateChanged">
+      <summary>
+            Called when the template has changed
+            </summary>
+      <remarks>
+            This implementation will raise the TemplateChanged event
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NTemplate.Attributes">
+      <summary>
+            Gets the list of child attributes of this container
+            </summary>
+      <returns>attributes of the container</returns>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NTemplate.MeasurementUnit">
+      <summary>
+            Gets/sets the measurement unit of the template
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NTemplate.Resolution">
+      <summary>
+            Gets/sets the resolution used for convertion between device dependant and device independant measurement units
+            </summary>
+    </member>
+    <member name="E:Nevron.Diagram.Templates.NTemplate.TemplateChanged">
+      <summary>
+            Fired when the template has been changed
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NTemplate.Name">
+      <summary>
+            Gets/set the template node
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NTemplate.Origin">
+      <summary>
+            Gets/sets the template origin
+            </summary>
+      <remarks>
+            The origin defines the location at which the template will be instanciated in the document
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NTemplate.TransactionDescription">
+      <summary>
+            Specifies the history transaction description 
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NGraphTemplate.GetAttributeName(Nevron.Dom.INAttribute)">
+      <summary>
+            Gets the name of the specified child attribute
+            </summary>
+      <remarks>
+            Overriden to give names to the vertices and edges styles
+            </remarks>
+      <param name="attribute">child attribute</param>
+      <returns>name of the attribute</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NGraphTemplate.ConvertMeasurementUnit(Nevron.GraphicsCore.NMeasurementUnitConverter,Nevron.GraphicsCore.NMeasurementUnit,Nevron.GraphicsCore.NMeasurementUnit)">
+      <summary>
+            Called when the measurement unit of the measurements stored in this node 
+            have changed and all measurements must be converted to the new unit
+            </summary>
+      <param name="converter">measurement unit converter to use</param>
+      <param name="from">from measurement unit</param>
+      <param name="to">to measurement unit</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NGraphTemplate.CreateEdge(Nevron.Diagram.ConnectorType)">
+      <summary>
+            Creates a new connector from the specified type
+            </summary>
+      <remarks>
+            The new connector style uses a copy of EdgesStyle style
+            </remarks>
+      <param name="type">
+      </param>
+      <returns>new connector</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NGraphTemplate.CreateVertex(Nevron.Diagram.Shapes.BasicShapes)">
+      <summary>
+            Creates a new graph vertex with the specified predefined shape
+            </summary>
+      <remarks>
+            The new graph vertex style is a copy of the VerticesStyle style
+            </remarks>
+      <param name="shape">predefined shape</param>
+      <returns>new graph vertex</returns>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGraphTemplate.Attributes">
+      <summary>
+            Gets an array of the child attributes of this container
+            </summary>
+      <remarks>
+            Overriden to return the vertices and edges styles
+            </remarks>
+      <returns>attributes of the container</returns>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGraphTemplate.VerticesSize">
+      <summary>
+            Gets/sets the size of the vertices constructed by this template
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGraphTemplate.VerticesShape">
+      <summary>
+            Gets/sets the shape of the vertices constructed by this template
+            </summary>
+      <remarks>
+            By default set to Rectangle
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGraphTemplate.HorizontalSpacing">
+      <summary>
+            Gets/sets the horizontal spacing between vertices
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGraphTemplate.VerticalSpacing">
+      <summary>
+            Gets/sets the vertical spacing between vertices
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGraphTemplate.VerticesStyle">
+      <summary>
+            Specifies the default style applied to vertices
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGraphTemplate.EdgesStyle">
+      <summary>
+            Specifies the default style applied to edges
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGraphTemplate.VerticesStyleSheetName">
+      <summary>
+            Specifies the default stylesheet name of the vertices
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGraphTemplate.EdgesStyleSheetName">
+      <summary>
+            Specifies the default stylesheet name of the edges
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NFamilyTreeTemplate.GetDescription">
+      <summary>
+            Overriden to return the family tree description
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NFamilyTreeTemplate.CreateTemplate(Nevron.Diagram.NDrawingDocument)">
+      <summary>
+            Overriden to create the family tree template
+            </summary>
+      <param name="document">document in which to create the template</param>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NFamilyTreeTemplate.ChildrenCount">
+      <summary>
+            Gets/sets the children count
+            </summary>
+      <remarks>
+            By default set to 2
+            </remarks>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NEllipticalGridTemplate">
+      <summary>
+            The NEllipticalGridTemplate class represents an elliptical grid template
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NEllipticalGridTemplate.ConvertMeasurementUnit(Nevron.GraphicsCore.NMeasurementUnitConverter,Nevron.GraphicsCore.NMeasurementUnit,Nevron.GraphicsCore.NMeasurementUnit)">
+      <summary>
+            Called when the measurement unit of the measurements stored in this node 
+            have changed and all measurements must be converted to the new unit
+            </summary>
+      <remarks>
+            Overriden to convert the X and Y radiuses
+            </remarks>
+      <param name="converter">measurement unit converter to use</param>
+      <param name="from">from measurement unit</param>
+      <param name="to">to measurement unit</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NEllipticalGridTemplate.GetDescription">
+      <summary>
+            Overriden to return the elliptical grid description
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NEllipticalGridTemplate.CreateTemplate(Nevron.Diagram.NDrawingDocument)">
+      <summary>
+            Overriden to create the elliptical grid template in the specified document
+            </summary>
+      <param name="document">document in which to create the template</param>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NEllipticalGridTemplate.RimNodesCount">
+      <summary>
+            Gets/sets the count of the nodes on the ellipse rim
+            </summary>
+      <remarks>
+            By default set to 6
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NEllipticalGridTemplate.RadiusX">
+      <summary>
+            Controls the X radius of the ellipse
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NEllipticalGridTemplate.RadiusY">
+      <summary>
+            Controls the Y radius of the ellipse
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NEllipticalGridTemplate.HasCenter">
+      <summary>
+            Specifies whether the grid has a center node
+            </summary>
+      <remarks>
+            By default set to true
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NEllipticalGridTemplate.ConnectGrid">
+      <summary>
+            Specifies whether the grid vertices are connected
+            </summary>
+      <remarks>
+            By default set to true
+            </remarks>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.TreeLayoutScheme">
+      <summary>
+            Enumerates the predefined tree layout schemes
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.TreeLayoutScheme.None">
+      <summary>
+            Do not use schemes
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.TreeLayoutScheme.Layered">
+      <summary>
+            Layered tree layout
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.TreeLayoutScheme.LayeredLeftAligned">
+      <summary>
+            Layered tree layout with layers aligned to the left
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.TreeLayoutScheme.LayeredRightAligned">
+      <summary>
+            Layered tree layout with layers aligned to the right
+            </summary>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NTriangularGridTemplate">
+      <summary>
+            The NTriangularGridTemplate class represents a triangular grid template
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTriangularGridTemplate.GetDescription">
+      <summary>
+            Overriden to return the triangular grid description
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTriangularGridTemplate.CreateTemplate(Nevron.Diagram.NDrawingDocument)">
+      <summary>
+            Overriden to create the triangular grid template in the specified document
+            </summary>
+      <param name="document">document in which to create the template</param>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NTriangularGridTemplate.Levels">
+      <summary>
+            Gets/sets the levels count of the triangluar grid
+            </summary>
+      <remarks>
+            By default set to 3
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NTriangularGridTemplate.ConnectGrid">
+      <summary>
+            Specifies whether the grid vertices are connected
+            </summary>
+      <remarks>
+            By default set to true
+            </remarks>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NRandomGraphTemplate">
+      <summary>
+            Generates a connnected random graph.
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NRandomGraphTemplate.GetDescription">
+      <summary>
+            Overriden to provide a description of the template.
+            </summary>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NRandomGraphTemplate.CreateTemplate(Nevron.Diagram.NDrawingDocument)">
+      <summary>
+            Overriden to create a random graph template in the specified document.
+            </summary>
+      <param name="document">The document to create a graph in.</param>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NRandomGraphTemplate.EdgeCount">
+      <summary>
+            The number of edges to generate.
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NRandomGraphTemplate.VertexCount">
+      <summary>
+            The number of vertices to generate.
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NRandomGraphTemplate.MinVerticesSize">
+      <summary>
+            The minimal size of a vertex in the graph.
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NRandomGraphTemplate.MaxVerticesSize">
+      <summary>
+            The maximal size of a vertex in the graph.
+            </summary>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NTemplateCollection">
+      <summary>
+            The NTemplateCollection class represents a named strongly typed collection containing NTemplate instances
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplateCollection.Add(Nevron.Diagram.Templates.NTemplate)">
+      <summary>
+            Adds a new template to the collection
+            </summary>
+      <param name="template">template to add</param>
+      <returns>index of the new template in the collection</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplateCollection.IndexOf(Nevron.Diagram.Templates.NTemplate)">
+      <summary>
+            Obtains the index of the template in the collection
+            </summary>
+      <param name="template">template</param>
+      <returns>template index</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplateCollection.Insert(System.Int32,Nevron.Diagram.Templates.NTemplate)">
+      <summary>
+            Inserts the specified template at the specified index
+            </summary>
+      <param name="index">index at which to insert</param>
+      <param name="template">template to insert</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplateCollection.Remove(Nevron.Diagram.Templates.NTemplate)">
+      <summary>
+            Removes the specified template from the collection
+            </summary>
+      <param name="template">template to remove</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplateCollection.Contains(Nevron.Diagram.Templates.NTemplate)">
+      <summary>
+            Determines whether the specified template is a member of this collection
+            </summary>
+      <param name="template">template for which to check</param>
+      <returns>true if the template is a member of the collection, otherwise false</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplateCollection.OnInsert(System.Int32,System.Object)">
+      <summary>
+            Overriden to check the object type
+            </summary>
+      <param name="index">
+      </param>
+      <param name="obj">
+      </param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplateCollection.OnRemove(System.Int32,System.Object)">
+      <summary>
+            Overriden to check the object type
+            </summary>
+      <param name="index">
+      </param>
+      <param name="obj">
+      </param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplateCollection.OnSet(System.Int32,System.Object,System.Object)">
+      <summary>
+            Overriden to check the object type
+            </summary>
+      <param name="index">
+      </param>
+      <param name="oldobj">
+      </param>
+      <param name="newobj">
+      </param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NTemplateCollection.OnValidate(System.Object)">
+      <summary>
+            Overriden to check the object type
+            </summary>
+      <param name="obj">
+      </param>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NTemplateCollection.Name">
+      <summary>
+            Specifies the collection name
+            </summary>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NDTR">
+      <summary>
+            Namespace class for resources used by the Nevron.Diagram.Templates assembly
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.NDTR.TemplateEllipticalGrid">
+      <summary>
+            Name for the elliptical grid template
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.NDTR.TemplateRectangularGrid">
+      <summary>
+            Name for the rectangular grid template
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.NDTR.TemplateTriangularGrid">
+      <summary>
+            Name for the triangular grid template
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.NDTR.TemplateRandomGraph">
+      <summary>
+            Name for the triangular grid template
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.NDTR.TemplateFamilyTree">
+      <summary>
+            Name for the family tree template
+            </summary>
+    </member>
+    <member name="F:Nevron.Diagram.Templates.NDTR.TemplateGenericTree">
+      <summary>
+            Name for the generic tree template
+            </summary>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NDiagramTemplatesLoadAssemblyType">
+      <summary>
+            Used to explicitly load the Nevron.Diagram.Templates.dll assembly.
+            </summary>
+    </member>
+    <member name="T:Nevron.Diagram.Editors.NTemplateUC">
+      <summary>
+            The NTemplateUC represents a user control which is used for the visual template editing
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Editors.NTemplateUC.UpdateFromTemplate">
+      <summary>
+            Updates the user control from the template
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Editors.NTemplateUC.Dispose(System.Boolean)">
+      <summary> 
+            Clean up any resources being used.
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Editors.NTemplateUC.OnLoad(System.EventArgs)">
+      <summary>
+      </summary>
+      <param name="e">
+      </param>
+    </member>
+    <member name="P:Nevron.Diagram.Editors.NTemplateUC.Template">
+      <summary>
+            Gets/sets the template associated with the user control
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Editors.NTemplateUC.Caption">
+      <summary>
+            Gets/sets the user control caption which is displayed in the wizard tab strip
+            </summary>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NGenericTreeTemplate">
+      <summary>
+            The NGenericTreeTemplate class represents a generic tree template
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NGenericTreeTemplate.GetDescription">
+      <summary>
+            Overriden to return the tree description
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NGenericTreeTemplate.CreateTemplate(Nevron.Diagram.NDrawingDocument)">
+      <summary>
+            Overriden to create the tree template
+            </summary>
+      <param name="document">document in which to create the template</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NGenericTreeTemplate.GetSize(System.Random)">
+      <summary>
+            Gets the size for a new vertex taking into account the VertexSizeDeviation property.
+            </summary>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NGenericTreeTemplate.CreateTree(Nevron.Diagram.NDrawingDocument)">
+      <summary>
+            Creates a tree in the specified document
+            </summary>
+      <param name="document">document in which to create a tree</param>
+      <returns>tree elements</returns>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGenericTreeTemplate.BranchNodes">
+      <summary>
+            Gets/sets the count of the child nodes for each branch
+            </summary>
+      <remarks>
+            By default set to 2
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGenericTreeTemplate.Levels">
+      <summary>
+            Gets/sets the tree levels count
+            </summary>
+      <remarks>
+            By default set to 3 
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGenericTreeTemplate.Balanced">
+      <summary>
+            Gets/sets if the tree is balanced or not
+            </summary>
+      <remarks>
+            By default set to true 
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGenericTreeTemplate.LayoutExpand">
+      <summary>
+            Specifies the tree layout expand
+            </summary>
+      <remarks>
+            By default set to TopToBottom
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGenericTreeTemplate.LayoutScheme">
+      <summary>
+            Specifies the tree layout scheme
+            </summary>
+      <remarks>
+            By default set to NormalCompressed
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGenericTreeTemplate.ConnectorType">
+      <summary>
+            Specifies the edge connector type
+            </summary>
+      <remarks>
+            By default set to DynamicPolyline
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NGenericTreeTemplate.VertexSizeDeviation">
+      <summary>
+            Specifies the deviation of the vertex size according to the VerticesSize (0 for none)
+            </summary>
+      <remarks>
+            By default set to 0
+            </remarks>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NWizard">
+      <summary>
+            The NWizard class represents a collection of NTemplateCollection instaces (template categories), 
+            which provides a visual interface for template selection and modification
+            </summary>
+      <remarks>
+            This class can be instanciated upon demand:
+            <code>
+            NWizard wizard = new NWizard(document);
+            </code></remarks>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NWizard.ShowDialog">
+      <summary>
+            Shows the wizard dialog
+            </summary>
+      <returns>true if the user clicked the OK button and the template was successfully created, otherwise false</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NWizard.AddCategory(Nevron.Diagram.Templates.NTemplateCollection)">
+      <summary>
+            Adds a new category to the wizard
+            </summary>
+      <remarks>
+            All templates in the category will adopt the wizard resolution and measurement unit
+            </remarks>
+      <param name="category">template category</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NWizard.RemoveCategory(Nevron.Diagram.Templates.NTemplateCollection)">
+      <summary>
+            Removes the specified category from the wizard
+            </summary>
+      <param name="category">template category</param>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NWizard.GetCategoryAt(System.Int32)">
+      <summary>
+            Gets the category at the specified index
+            </summary>
+      <param name="index">index</param>
+      <returns>template category</returns>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NWizard.InitPredefinedTemplateCategories">
+      <summary>
+            Initializes the wizard with the predefined templates
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NWizard.MeasurementUnit">
+      <summary>
+            Gets/sets the measurement unit of the wizard
+            </summary>
+      <remarks>
+            By default initialized with the document measurement unit. The set accessor will propagate the call to all contained templates
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NWizard.Resolution">
+      <summary>
+            Gets/sets the resolution used for convertion between device dependant and device independant measurement units
+            </summary>
+      <remarks>
+            By default initialized with the document resolution. The set accessor will propagate the call to all contained templates
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NWizard.Document">
+      <summary>
+            Obtains a reference to the document associated with the wizard
+            </summary>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NWizard.Categories">
+      <summary>
+            Obtains an array of the template categories
+            </summary>
+      <returns>template categories</returns>
+    </member>
+    <member name="T:Nevron.Diagram.Templates.NRectangularGridTemplate">
+      <summary>
+            The NEllipticalGridTemplate class represents a rectangular grid template
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NRectangularGridTemplate.GetDescription">
+      <summary>
+            Overriden to return the rectangular grid description
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Templates.NRectangularGridTemplate.CreateTemplate(Nevron.Diagram.NDrawingDocument)">
+      <summary>
+            Overriden to create the rectangular grid template in the specified document
+            </summary>
+      <param name="document">document in which to create the template</param>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NRectangularGridTemplate.ColumnCount">
+      <summary>
+            Gets/sets the columns count
+            </summary>
+      <remarks>
+            By default set to 3
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NRectangularGridTemplate.RowCount">
+      <summary>
+            Gets/sets the rows count
+            </summary>
+      <remarks>
+            By default set to 3
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Templates.NRectangularGridTemplate.ConnectGrid">
+      <summary>
+            Specifies whether the grid vertices are connected
+            </summary>
+      <remarks>
+            By default set to true
+            </remarks>
+    </member>
+  </members>
+</doc>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>Nevron.Diagram.Visio</name>
+  </assembly>
+  <members>
+    <member name="T:Nevron.Diagram.Visio.NVisioImporter">
+      <summary>
+            Imports Visio XML stencils in a nevron library document.
+            </summary>
+    </member>
+    <member name="M:Nevron.Diagram.Visio.NVisioImporter.Import(System.String)">
+      <summary>
+            Imports the Visio stencil from the specified file.
+            </summary>
+      <param name="fileName">
+      </param>
+    </member>
+    <member name="M:Nevron.Diagram.Visio.NVisioImporter.Import(System.IO.Stream)">
+      <summary>
+            Imports the Visio stencil from the specified stream.
+            </summary>
+      <param name="stream">
+      </param>
+    </member>
+    <member name="P:Nevron.Diagram.Visio.NVisioImporter.MeasurementUnit">
+      <summary>
+            Determines the measurement unit the importer should use. By default set to NGraphicsUnit.Inch.
+            </summary>
+      <remarks>
+            Set to inch by default, because inch is the default measurement unit used in Visio.
+            </remarks>
+    </member>
+    <member name="P:Nevron.Diagram.Visio.NVisioImporter.PreserveShapeHierarchy">
+      <summary>
+            Controls whether the importer should preserve the shape hierarchy as in the Visio stencil thus
+            creating nested groups or to import all Visio child shapes as custom paths in a composite shape. By
+            default set to false.
+            </summary>
+      <remarks>
+            If you set this property to true the Visio child shapes will be imported as shapes in a group
+            (or groups nested in a group) thus giving you a great level of control over each child shape and making it
+            possible to use inherited styles. But note that this will also lead to higher memory consumption than the
+            import of the Visio child shapes as custom paths in a composite shape.
+            </remarks>
+    </member>
+  </members>
+</doc>
