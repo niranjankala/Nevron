@@ -13,14 +13,18 @@ namespace Nevron.Examples.Chart
 {
     public class ChartData
     {
+
         public DataTable GetDataTable(string xmlFilePath)
         {
             DataTable dt = new DataTable();
-
-            if(!string.IsNullOrWhiteSpace(xmlFilePath) && File.Exists(xmlFilePath))
+            DataSet ds = new DataSet();
+            if (!string.IsNullOrWhiteSpace(xmlFilePath) && File.Exists(xmlFilePath))
             {
-                dt.ReadXml(xmlFilePath);
-            }                      
+                ds.ReadXml(xmlFilePath);
+                if (ds.Tables.Count > 0)
+                    dt = ds.Tables[0];
+            }
+
             return dt;
         }
 
@@ -53,7 +57,7 @@ namespace Nevron.Examples.Chart
         //        }
         //    }
         //    dt = ds.Tables[0];
-        //    dt.WriteXml("d:\\data.xml");
+        //    ds.WriteXml("d:\\data.xml");
         //    return dt;
         //}
 
@@ -100,7 +104,7 @@ namespace Nevron.Examples.Chart
         //        }
         //    }
         //    return dt;
-        
+
         //}
         private string GetValue(SpreadsheetDocument doc, Cell cell)
         {
